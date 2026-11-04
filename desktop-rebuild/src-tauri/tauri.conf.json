@@ -32,7 +32,7 @@
       "msi"
     ],
     "icon": [
-      "../icon.ico"
+      "../../icon.ico"
     ]
   }
 }
