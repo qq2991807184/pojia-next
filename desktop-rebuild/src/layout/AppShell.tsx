@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
-import { Activity, Archive, ArrowUpRight, Boxes, CheckCircle2, ChevronLeft, ChevronRight, Command, FileSliders, Home, Puzzle, Settings2, ShieldCheck, Sparkles } from "lucide-react";
+import { isTauri } from "@tauri-apps/api/core";
+import { load } from "@tauri-apps/plugin-store";
+import { Activity, Archive, CheckCircle2, ChevronLeft, ChevronRight, FileSliders, Home, Puzzle, Settings2, ShieldCheck, Sparkles } from "lucide-react";
 import type { PageKey } from "../App";
 import { TitleBar } from "./TitleBar";
 
@@ -14,32 +16,69 @@ const nav: { id: PageKey; label: string; icon: typeof Home; group: string }[] = 
   { id: "settings", label: "设置", icon: Settings2, group: "应用" }
 ];
 
+const SIDEBAR_KEY = "sidebar.collapsed";
+const LEGACY_SIDEBAR_KEY = "pojia.sidebar.collapsed";
+
+async function readCollapsed(): Promise<boolean> {
+  if (isTauri()) {
+    const store = await load("settings.json", { autoSave: true });
+    const saved = await store.get<boolean>(SIDEBAR_KEY);
+    if (saved !== null && saved !== undefined) return saved;
+    const legacy = localStorage.getItem(LEGACY_SIDEBAR_KEY) === "1";
+    await store.set(SIDEBAR_KEY, legacy);
+    await store.save();
+    return legacy;
+  }
+  return localStorage.getItem(LEGACY_SIDEBAR_KEY) === "1";
+}
+
+async function writeCollapsed(value: boolean): Promise<void> {
+  if (isTauri()) {
+    const store = await load("settings.json", { autoSave: true });
+    await store.set(SIDEBAR_KEY, value);
+    await store.save();
+    return;
+  }
+  localStorage.setItem(LEGACY_SIDEBAR_KEY, value ? "1" : "0");
+}
+
 export function AppShell({ page, onNavigate, children }: { page: PageKey; onNavigate: (p: PageKey) => void; children: ReactNode }) {
-  const [collapsed, setCollapsed] = useState(() => localStorage.getItem("pojia.sidebar.collapsed") === "1");
-  useEffect(() => { localStorage.setItem("pojia.sidebar.collapsed", collapsed ? "1" : "0"); }, [collapsed]);
+  const [collapsed, setCollapsed] = useState<boolean | null>(null);
+  useEffect(() => {
+    let active = true;
+    readCollapsed().then(value => { if (active) setCollapsed(value); })
+      .catch(() => { if (active) setCollapsed(false); });
+    return () => { active = false; };
+  }, []);
+  const toggleCollapsed = async () => {
+    const next = !(collapsed ?? false);
+    setCollapsed(next);
+    try { await writeCollapsed(next); } catch { /* Keep current session responsive if disk persistence fails. */ }
+  };
+  const isCollapsed = collapsed === true;
   const title = nav.find(n => n.id === page)?.label ?? "总览";
   return <div className="app-frame">
-    <aside className={`sidebar ${collapsed ? "is-collapsed" : ""}`}>
+    <aside className={`sidebar ${isCollapsed ? "is-collapsed" : ""} ${collapsed === null ? "is-loading" : ""}`}>
       <div className="brand-zone">
         <div className="brand-mark">破</div>
-        {!collapsed && <div className="brand-copy"><strong>破甲</strong><span>让强大的 AI 成就更强大的你</span></div>}
-        <button className="collapse-btn" title={collapsed ? "展开侧栏" : "收起侧栏"} onClick={() => setCollapsed(v => !v)}>
-          {collapsed ? <ChevronRight size={16}/> : <ChevronLeft size={16}/>}
+        {!isCollapsed && <div className="brand-copy"><strong>破甲</strong><span>让强大的 AI 成就更强大的你</span></div>}
+        <button className="collapse-btn" title={isCollapsed ? "展开侧栏" : "收起侧栏"} onClick={toggleCollapsed} disabled={collapsed === null}>
+          {isCollapsed ? <ChevronRight size={16}/> : <ChevronLeft size={16}/>}
         </button>
       </div>
       <div className="sidebar-rule" />
-      {!collapsed && <div className="nav-caption">导航</div>}
+      {!isCollapsed && <div className="nav-caption">导航</div>}
       <nav className="nav-list">
         {nav.map(item => {
           const Icon = item.icon;
-          return <button key={item.id} className={`nav-item ${page === item.id ? "active" : ""}`} title={collapsed ? item.label : undefined} onClick={() => onNavigate(item.id)}>
-            <Icon size={18}/>{!collapsed && <span>{item.label}</span>}{!collapsed && page === item.id && <i/>}
+          return <button key={item.id} className={`nav-item ${page === item.id ? "active" : ""}`} title={isCollapsed ? item.label : undefined} onClick={() => onNavigate(item.id)}>
+            <Icon size={18}/>{!isCollapsed && <span>{item.label}</span>}{!isCollapsed && page === item.id && <i/>}
           </button>;
         })}
       </nav>
       <div className="sidebar-bottom">
-        <div className="status-indicator"><span className="status-dot"/>{!collapsed && <span>本地运行环境</span>}</div>
-        {!collapsed && <div className="slogan">伟大无需多言</div>}
+        <div className="status-indicator"><span className="status-dot"/>{!isCollapsed && <span>本地运行环境</span>}</div>
+        {!isCollapsed && <div className="slogan">伟大无需多言</div>}
       </div>
     </aside>
     <section className="main-column">
