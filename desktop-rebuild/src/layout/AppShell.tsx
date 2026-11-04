@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { isTauri } from "@tauri-apps/api/core";
 import { load } from "@tauri-apps/plugin-store";
-import { Activity, Archive, CheckCircle2, ChevronLeft, ChevronRight, FileSliders, Home, Puzzle, Settings2, ShieldCheck, Sparkles, Cpu, UserRound, Cloud, Puzzle } from "lucide-react";
+import { Activity, Archive, CheckCircle2, ChevronLeft, ChevronRight, FileSliders, Home, Puzzle, Settings2, ShieldCheck, Sparkles, Cpu, UserRound, Cloud } from "lucide-react";
 import type { PageKey } from "../App";
 import { TitleBar } from "./TitleBar";
 
