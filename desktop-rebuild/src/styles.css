@@ -9,3 +9,10 @@
 .settings-value{font-size:10px;color:#c49a62;border:1px solid #494031;border-radius:20px;padding:5px 10px;white-space:nowrap}
 .editor-error{margin-top:12px;color:#e28b83;font-size:11px}
 .button-primary:disabled{opacity:.45;cursor:not-allowed}
+
+.setting-toggle{display:flex;align-items:center;gap:9px;color:#c49a62;font-size:10px;white-space:nowrap;cursor:pointer}
+.setting-toggle input{appearance:none;width:34px;height:19px;border-radius:20px;background:#41444d;border:1px solid #555963;position:relative;cursor:pointer;transition:background .18s,border-color .18s}
+.setting-toggle input:before{content:"";position:absolute;width:13px;height:13px;left:2px;top:2px;border-radius:50%;background:#d7d9de;transition:transform .18s}
+.setting-toggle input:checked{background:#b9874c;border-color:#c99a5d}
+.setting-toggle input:checked:before{transform:translateX(15px);background:#17191f}
+.setting-toggle input:disabled{opacity:.5;cursor:not-allowed}
