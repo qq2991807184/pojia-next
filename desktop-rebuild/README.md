@@ -24,6 +24,15 @@ npm run tauri dev
 npm run tauri build
 ```
 
+## 本地联调旧版业务核心
+
+1. 将交接包内的 `破甲GUI.py`、`破甲一键通.py`、`run_v1.py` 放到 `desktop-rebuild/legacy-source/`。
+2. 在 PowerShell 运行 `./start-legacy-backend.ps1`，保持该窗口运行。它使用旧版原生 HTTP 服务的无浏览器模式，不改动核心执行文件。
+3. 在另一个终端进入 `desktop-rebuild/`，运行 `npm install` 与 `npm run tauri dev`。
+4. 新界面通过 Rust 本地桥接访问 8317–8336 端口范围内的旧版 API；无需向 Python 服务开放跨域权限。
+
+`legacy-source/` 已加入忽略清单，不会被 Git 自动提交。此方式仅用于开发联调；正式发布仍需把旧版 GUI + 核心打成 PyInstaller Sidecar，并由 Tauri 自动启动和关闭。当前安装包尚未包含该 Sidecar。
+
 ## 当前状态
 
 - 已建立左侧可折叠导航、顶部自定义标题栏、主工作区和状态栏。
