@@ -10,8 +10,9 @@ import { ConfigsPage } from "./pages/ConfigsPage";
 import { ChecksPage } from "./pages/ChecksPage";
 import { CloudPage } from "./pages/CloudPage";
 import { SkillsPage } from "./pages/SkillsPage";
+import { LogsPage } from "./pages/LogsPage";
 
-export type PageKey = "home" | "clients" | "configs" | "env" | "persona" | "skills" | "cloud" | "prompt" | "backups" | "checks" | "settings";
+export type PageKey = "home" | "clients" | "configs" | "env" | "persona" | "skills" | "cloud" | "logs" | "prompt" | "backups" | "checks" | "settings";
 
 export default function App() {
   const [page, setPage] = useState<PageKey>("home");
@@ -21,6 +22,7 @@ export default function App() {
     : page === "checks" ? <ChecksPage />
     : page === "skills" ? <SkillsPage />
     : page === "cloud" ? <CloudPage />
+    : page === "logs" ? <LogsPage />
     : page === "env" ? <EnvironmentPage />
     : page === "persona" ? <PersonaPage />
     : page === "prompt" ? <PromptEditor />
