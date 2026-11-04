@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { isTauri } from "@tauri-apps/api/core";
 import { load } from "@tauri-apps/plugin-store";
-import { Activity, Archive, CheckCircle2, ChevronLeft, ChevronRight, FileSliders, Home, Puzzle, Settings2, ShieldCheck, Sparkles } from "lucide-react";
+import { Activity, Archive, CheckCircle2, ChevronLeft, ChevronRight, FileSliders, Home, Puzzle, Settings2, ShieldCheck, Sparkles, Cpu, UserRound } from "lucide-react";
 import type { PageKey } from "../App";
 import { TitleBar } from "./TitleBar";
 
@@ -10,6 +10,8 @@ const nav: { id: PageKey; label: string; icon: typeof Home; group: string }[] = 
   { id: "home", label: "总览", icon: Home, group: "工作区" },
   { id: "clients", label: "客户端", icon: Puzzle, group: "工作区" },
   { id: "configs", label: "配置方案", icon: FileSliders, group: "工作区" },
+  { id: "env", label: "环境检测", icon: Cpu, group: "工作区" },
+  { id: "persona", label: "人格编辑", icon: UserRound, group: "工作区" },
   { id: "prompt", label: "提示词", icon: Sparkles, group: "工作区" },
   { id: "backups", label: "备份中心", icon: Archive, group: "维护" },
   { id: "checks", label: "生效检查", icon: ShieldCheck, group: "维护" },
