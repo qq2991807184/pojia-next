@@ -5,7 +5,6 @@ import { Boxes, FileSliders, Archive, ShieldCheck, Settings2, Puzzle, HardDrive,
 import type { PageKey } from "../App";
 
 const info: Partial<Record<PageKey,{title:string;desc:string;icon:typeof Boxes;label:string}>> = {
-  clients:{title:"客户端管理",desc:"统一识别本机 AI 编程客户端及其配置位置。",icon:Puzzle,label:"客户端扫描"},
   configs:{title:"配置方案",desc:"管理配置规则、方案与变更预览。",icon:FileSliders,label:"配置管理"},
   backups:{title:"备份中心",desc:"查看备份记录、校验完整性并恢复配置。",icon:Archive,label:"备份与恢复"},
   checks:{title:"生效检查",desc:"检查配置写入结果、冲突与最终生效状态。",icon:ShieldCheck,label:"验证中心"},
