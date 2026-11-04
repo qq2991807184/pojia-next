@@ -105,3 +105,23 @@
 .check-row strong{font-size:11px;color:#d3d5d9}.check-row p{font-size:10px;color:#7c8490;margin:5px 0 0}
 .check-row>span{font-size:9px;color:#d6a45d}
 .dashboard-error{margin-top:16px}
+
+
+.cloud-panel{max-width:650px;margin:24px auto;border:1px solid #343741;background:#191c22;border-radius:12px;padding:28px;text-align:center}
+.cloud-icon{width:52px;height:52px;margin:0 auto 15px;border-radius:15px;background:#29251f;color:#d6a45d;display:grid;place-items:center}
+.cloud-panel>strong{font-size:16px}.cloud-panel>p{font-size:11px;color:#858b97;line-height:1.7;margin:9px auto 0;max-width:470px}
+.cloud-form{max-width:380px;margin:22px auto 0;text-align:left;display:flex;flex-direction:column;gap:12px}
+.cloud-form label{font-size:10px;color:#aeb3bc;display:flex;flex-direction:column;gap:7px}
+.cloud-form input{height:37px;border:1px solid #3b3f49;background:#121419;color:#e8e9eb;border-radius:6px;padding:0 11px;outline:none}
+.cloud-form input:focus{border-color:#b58b55}
+.cloud-form button{justify-content:center;height:36px}
+.skill-section{border:1px solid #30333c;background:#191c22;border-radius:9px;padding:15px 17px;margin-bottom:13px}
+.skill-section h2{font-size:12px;margin:0 0 12px}
+.skill-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid #2b2e37;color:#c49a62}
+.skill-row>div{flex:1;min-width:0}.skill-row strong{display:block;font-size:11px;color:#d4d6da}.skill-row small{display:block;font-size:9px;color:#747c88;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.skill-row>span{font-size:9px;color:#8fbea0}
+.skill-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.skill-card{border:1px solid #30333c;border-radius:8px;padding:12px;background:#16181e}
+.skill-card>div{display:flex;justify-content:space-between;color:#c49a62;font-size:9px;margin-bottom:10px}
+.skill-card strong{font-size:11px}.skill-card p{font-size:10px;color:#7d8490;line-height:1.6;margin:7px 0 0}
+@media(max-width:1050px){.skill-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
