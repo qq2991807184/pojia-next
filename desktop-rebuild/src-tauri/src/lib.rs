@@ -8,6 +8,7 @@ use tauri::{
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
+        .plugin(tauri_plugin_store::Builder::default().build())
         .setup(|app| {
             let show = MenuItem::with_id(app, "tray-show", "显示破甲", true, None::<&str>)?;
             let quit = MenuItem::with_id(app, "tray-quit", "完全退出", true, None::<&str>)?;
