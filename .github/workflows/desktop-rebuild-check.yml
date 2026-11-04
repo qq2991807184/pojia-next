@@ -1,0 +1,39 @@
+name: Desktop rebuild checks
+
+on:
+  push:
+    branches:
+      - rebuild/tauri-desktop-shell
+    paths:
+      - "desktop-rebuild/**"
+      - ".github/workflows/desktop-rebuild-check.yml"
+  pull_request:
+    paths:
+      - "desktop-rebuild/**"
+      - ".github/workflows/desktop-rebuild-check.yml"
+
+jobs:
+  windows-check:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install frontend dependencies
+        working-directory: desktop-rebuild
+        run: npm install
+
+      - name: TypeScript and frontend production build
+        working-directory: desktop-rebuild
+        run: npm run build
+
+      - name: Rust backend check
+        run: cargo check --manifest-path desktop-rebuild/src-tauri/Cargo.toml
